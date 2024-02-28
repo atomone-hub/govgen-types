@@ -5,7 +5,20 @@ const { writeFileSync } = require("fs");
 const telescope = require("@cosmology/telescope").default;
 
 const outPath = join(__dirname, "/../src");
-
+const aminoExceptions = {
+  "/govgen.gov.v1beta1.MsgSubmitProposal": {
+    aminoType: "cosmos-sdk/MsgSubmitProposal",
+  },
+  "/govgen.gov.v1beta1.MsgVote": {
+    aminoType: "cosmos-sdk/MsgVote",
+  },
+  "/govgen.gov.v1beta1.MsgVoteWeighted": {
+    aminoType: "cosmos-sdk/MsgVoteWeighted",
+  },
+  "/govgen.gov.v1beta1.MsgDeposit": {
+    aminoType: "cosmos-sdk/MsgDeposit",
+  },
+};
 telescope({
   protoDirs: ["protos/cosmos-sdk/proto", "protos/cosmos-sdk/third_party/proto", "protos/govgen/proto"],
   outPath: outPath,
@@ -88,6 +101,7 @@ telescope({
     },
     aminoEncoding: {
       enabled: true,
+      exceptions: aminoExceptions,
       useLegacyInlineEncoding: true,
     },
   },
