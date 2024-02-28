@@ -1,0 +1,9 @@
+[submodule "protos/govgen"]
+	path = protos/govgen
+	url = https://github.com/atomone-hub/govgen
+[submodule "protos/cosmos-sdk"]
+	path = protos/cosmos-sdk
+	url = https://github.com/cosmos/cosmos-sdk
+[submodule "protos/ibc-go-src"]
+	path = protos/ibc-go-src
+	url = https://github.com/cosmos/ibc-go
