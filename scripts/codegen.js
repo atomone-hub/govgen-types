@@ -39,6 +39,7 @@ telescope({
     },
     prototypes: {
       includePackageVar: true,
+      allowUndefinedTypes: true,
       strictNullCheckForPrototypeMethods: true,
       paginationDefaultFromPartial: true,
       addTypeUrlToObjects: true,
@@ -79,10 +80,12 @@ telescope({
         toProto: false,
       },
       typingsFormat: {
+        useTelescopeGeneratedType: true,
         useDeepPartial: true,
         useExact: true,
         timestamp: "timestamp",
         duration: "duration",
+        setDefaultCustomTypesToUndefined: true,
         customTypes: {
           useCosmosSDKDec: false,
         },
@@ -103,6 +106,9 @@ telescope({
       enabled: true,
       exceptions: aminoExceptions,
       useLegacyInlineEncoding: true,
+    },
+    tsDisable: {
+      patterns: ["**/authz/**/*.amino.ts"],
     },
   },
 }).then(

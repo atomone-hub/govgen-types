@@ -27,7 +27,7 @@ export interface ValidatorSigningInfo {
    */
   indexOffset: bigint;
   /** Timestamp until which the validator is jailed due to liveness downtime. */
-  jailedUntil: Timestamp;
+  jailedUntil: Timestamp | undefined;
   /**
    * Whether or not a validator has been tombstoned (killed out of validator set). It is set
    * once the validator commits an equivocation or for any other configured misbehiavor.
@@ -43,7 +43,7 @@ export interface ValidatorSigningInfo {
 export interface Params {
   signedBlocksWindow: bigint;
   minSignedPerWindow: Uint8Array;
-  downtimeJailDuration: Duration;
+  downtimeJailDuration: Duration | undefined;
   slashFractionDoubleSign: Uint8Array;
   slashFractionDowntime: Uint8Array;
 }
@@ -52,7 +52,7 @@ function createBaseValidatorSigningInfo(): ValidatorSigningInfo {
     address: "",
     startHeight: BigInt(0),
     indexOffset: BigInt(0),
-    jailedUntil: Timestamp.fromPartial({}),
+    jailedUntil: undefined,
     tombstoned: false,
     missedBlocksCounter: BigInt(0),
   };
@@ -157,7 +157,7 @@ function createBaseParams(): Params {
   return {
     signedBlocksWindow: BigInt(0),
     minSignedPerWindow: new Uint8Array(),
-    downtimeJailDuration: Duration.fromPartial({}),
+    downtimeJailDuration: undefined,
     slashFractionDoubleSign: new Uint8Array(),
     slashFractionDowntime: new Uint8Array(),
   };

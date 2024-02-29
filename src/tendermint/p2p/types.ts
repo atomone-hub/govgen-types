@@ -13,14 +13,14 @@ export interface ProtocolVersion {
   app: bigint;
 }
 export interface DefaultNodeInfo {
-  protocolVersion: ProtocolVersion;
+  protocolVersion: ProtocolVersion | undefined;
   defaultNodeId: string;
   listenAddr: string;
   network: string;
   version: string;
   channels: Uint8Array;
   moniker: string;
-  other: DefaultNodeInfoOther;
+  other: DefaultNodeInfoOther | undefined;
 }
 export interface DefaultNodeInfoOther {
   txIndex: string;

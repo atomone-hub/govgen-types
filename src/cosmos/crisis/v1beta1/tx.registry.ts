@@ -1,7 +1,8 @@
 /* eslint-disable */
-import { GeneratedType, Registry } from "@cosmjs/proto-signing";
+import { TelescopeGeneratedType } from "../../../types";
+import { Registry } from "@cosmjs/proto-signing";
 import { MsgVerifyInvariant } from "./tx";
-export const registry: ReadonlyArray<[string, GeneratedType]> = [
+export const registry: ReadonlyArray<[string, TelescopeGeneratedType<any, any, any>]> = [
   ["/cosmos.crisis.v1beta1.MsgVerifyInvariant", MsgVerifyInvariant],
 ];
 export const load = (protoRegistry: Registry) => {

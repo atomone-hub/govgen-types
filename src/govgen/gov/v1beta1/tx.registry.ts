@@ -1,7 +1,8 @@
 /* eslint-disable */
-import { GeneratedType, Registry } from "@cosmjs/proto-signing";
+import { TelescopeGeneratedType } from "../../../types";
+import { Registry } from "@cosmjs/proto-signing";
 import { MsgSubmitProposal, MsgVote, MsgVoteWeighted, MsgDeposit } from "./tx";
-export const registry: ReadonlyArray<[string, GeneratedType]> = [
+export const registry: ReadonlyArray<[string, TelescopeGeneratedType<any, any, any>]> = [
   ["/govgen.gov.v1beta1.MsgSubmitProposal", MsgSubmitProposal],
   ["/govgen.gov.v1beta1.MsgVote", MsgVote],
   ["/govgen.gov.v1beta1.MsgVoteWeighted", MsgVoteWeighted],

@@ -9,12 +9,12 @@ export const protobufPackage = "cosmos.tx.v1beta1";
 /** Tx is the standard type used for broadcasting transactions. */
 export interface Tx {
   /** body is the processable content of the transaction */
-  body?: TxBody;
+  body?: TxBody | undefined;
   /**
    * auth_info is the authorization related content of the transaction,
    * specifically signers, signer modes and fee
    */
-  authInfo?: AuthInfo;
+  authInfo?: AuthInfo | undefined;
   /**
    * signatures is a list of signatures that matches the length and order of
    * AuthInfo's signer_infos to allow connecting signature meta information like
@@ -122,7 +122,7 @@ export interface AuthInfo {
    * based on the cost of evaluating the body and doing signature verification
    * of the signers. This can be estimated via simulation.
    */
-  fee?: Fee;
+  fee?: Fee | undefined;
 }
 /**
  * SignerInfo describes the public key and signing mode of a single top-level
@@ -134,12 +134,12 @@ export interface SignerInfo {
    * that already exist in state. If unset, the verifier can use the required \
    * signer address for this position and lookup the public key.
    */
-  publicKey?: Any;
+  publicKey?: Any | undefined;
   /**
    * mode_info describes the signing mode of the signer and is a nested
    * structure to support nested multisig pubkey's
    */
-  modeInfo?: ModeInfo;
+  modeInfo?: ModeInfo | undefined;
   /**
    * sequence is the sequence of the account, which describes the
    * number of committed transactions signed by a given address. It is used to
@@ -150,9 +150,9 @@ export interface SignerInfo {
 /** ModeInfo describes the signing mode of a single or nested multisig signer. */
 export interface ModeInfo {
   /** single represents a single signer */
-  single?: ModeInfo_Single;
+  single?: ModeInfo_Single | undefined;
   /** multi represents a nested multisig signer */
-  multi?: ModeInfo_Multi;
+  multi?: ModeInfo_Multi | undefined;
 }
 /**
  * Single is the mode info for a single signer. It is structured as a message
@@ -166,7 +166,7 @@ export interface ModeInfo_Single {
 /** Multi is the mode info for a multisig public key */
 export interface ModeInfo_Multi {
   /** bitarray specifies which keys within the multisig are signing */
-  bitarray?: CompactBitArray;
+  bitarray?: CompactBitArray | undefined;
   /**
    * mode_infos is the corresponding modes of the signers of the multisig
    * which could include nested multisig public keys

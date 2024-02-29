@@ -5,7 +5,8 @@ import { TxResponse, GasInfo, Result } from "../../base/abci/v1beta1/abci";
 import { BlockID } from "../../../tendermint/types/types";
 import { Block } from "../../../tendermint/types/block";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet, DeepPartial, Exact, bytesFromBase64, base64FromBytes, Rpc } from "../../../helpers";
+import { isSet, DeepPartial, Exact, bytesFromBase64, base64FromBytes } from "../../../helpers";
+import { TxRpc } from "../../../types";
 export const protobufPackage = "cosmos.tx.v1beta1";
 /** OrderBy defines the sorting order */
 export enum OrderBy {
@@ -111,7 +112,7 @@ export interface GetTxsEventRequest {
   /** events is the list of transaction event type. */
   events: string[];
   /** pagination defines a pagination for the request. */
-  pagination?: PageRequest;
+  pagination?: PageRequest | undefined;
   orderBy: OrderBy;
 }
 /**
@@ -124,7 +125,7 @@ export interface GetTxsEventResponse {
   /** tx_responses is the list of queried TxResponses. */
   txResponses: TxResponse[];
   /** pagination defines a pagination for the response. */
-  pagination?: PageResponse;
+  pagination?: PageResponse | undefined;
 }
 /**
  * BroadcastTxRequest is the request type for the Service.BroadcastTxRequest
@@ -141,7 +142,7 @@ export interface BroadcastTxRequest {
  */
 export interface BroadcastTxResponse {
   /** tx_response is the queried TxResponses. */
-  txResponse?: TxResponse;
+  txResponse?: TxResponse | undefined;
 }
 /**
  * SimulateRequest is the request type for the Service.Simulate
@@ -153,7 +154,7 @@ export interface SimulateRequest {
    * Deprecated. Send raw tx bytes instead.
    */
   /** @deprecated */
-  tx?: Tx;
+  tx?: Tx | undefined;
   /**
    * tx_bytes is the raw transaction.
    *
@@ -167,9 +168,9 @@ export interface SimulateRequest {
  */
 export interface SimulateResponse {
   /** gas_info is the information about gas used in the simulation. */
-  gasInfo?: GasInfo;
+  gasInfo?: GasInfo | undefined;
   /** result is the result of the simulation. */
-  result?: Result;
+  result?: Result | undefined;
 }
 /**
  * GetTxRequest is the request type for the Service.GetTx
@@ -182,9 +183,9 @@ export interface GetTxRequest {
 /** GetTxResponse is the response type for the Service.GetTx method. */
 export interface GetTxResponse {
   /** tx is the queried transaction. */
-  tx?: Tx;
+  tx?: Tx | undefined;
   /** tx_response is the queried TxResponses. */
-  txResponse?: TxResponse;
+  txResponse?: TxResponse | undefined;
 }
 /**
  * GetBlockWithTxsRequest is the request type for the Service.GetBlockWithTxs
@@ -196,7 +197,7 @@ export interface GetBlockWithTxsRequest {
   /** height is the height of the block to query. */
   height: bigint;
   /** pagination defines a pagination for the request. */
-  pagination?: PageRequest;
+  pagination?: PageRequest | undefined;
 }
 /**
  * GetBlockWithTxsResponse is the response type for the Service.GetBlockWithTxs method.
@@ -206,10 +207,10 @@ export interface GetBlockWithTxsRequest {
 export interface GetBlockWithTxsResponse {
   /** txs are the transactions in the block. */
   txs: Tx[];
-  blockId?: BlockID;
-  block?: Block;
+  blockId?: BlockID | undefined;
+  block?: Block | undefined;
   /** pagination defines a pagination for the response. */
-  pagination?: PageResponse;
+  pagination?: PageResponse | undefined;
 }
 function createBaseGetTxsEventRequest(): GetTxsEventRequest {
   return {
@@ -862,8 +863,8 @@ export interface Service {
   GetBlockWithTxs(request: GetBlockWithTxsRequest): Promise<GetBlockWithTxsResponse>;
 }
 export class ServiceClientImpl implements Service {
-  private readonly rpc: Rpc;
-  constructor(rpc: Rpc) {
+  private readonly rpc: TxRpc;
+  constructor(rpc: TxRpc) {
     this.rpc = rpc;
     this.Simulate = this.Simulate.bind(this);
     this.GetTx = this.GetTx.bind(this);

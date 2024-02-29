@@ -8,10 +8,10 @@ export const protobufPackage = "tendermint.types";
  * validity of blocks.
  */
 export interface ConsensusParams {
-  block: BlockParams;
-  evidence: EvidenceParams;
-  validator: ValidatorParams;
-  version: VersionParams;
+  block: BlockParams | undefined;
+  evidence: EvidenceParams | undefined;
+  validator: ValidatorParams | undefined;
+  version: VersionParams | undefined;
 }
 /** BlockParams contains limits on the block size. */
 export interface BlockParams {
@@ -49,7 +49,7 @@ export interface EvidenceParams {
    * mechanism for handling [Nothing-At-Stake
    * attacks](https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQ#what-is-the-nothing-at-stake-problem-and-how-can-it-be-fixed).
    */
-  maxAgeDuration: Duration;
+  maxAgeDuration: Duration | undefined;
   /**
    * This sets the maximum size of total evidence in bytes that can be committed in a single block.
    * and should fall comfortably under the max block bytes.
@@ -240,7 +240,7 @@ export const BlockParams = {
 function createBaseEvidenceParams(): EvidenceParams {
   return {
     maxAgeNumBlocks: BigInt(0),
-    maxAgeDuration: Duration.fromPartial({}),
+    maxAgeDuration: undefined,
     maxBytes: BigInt(0),
   };
 }

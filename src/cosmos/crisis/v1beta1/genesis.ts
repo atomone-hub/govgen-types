@@ -9,11 +9,11 @@ export interface GenesisState {
    * constant_fee is the fee used to verify the invariant in the crisis
    * module.
    */
-  constantFee: Coin;
+  constantFee: Coin | undefined;
 }
 function createBaseGenesisState(): GenesisState {
   return {
-    constantFee: Coin.fromPartial({}),
+    constantFee: undefined,
   };
 }
 export const GenesisState = {

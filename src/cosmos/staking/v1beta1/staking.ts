@@ -61,7 +61,7 @@ export function bondStatusToJSON(object: BondStatus): string {
  * (`n` is set by the staking module's `historical_entries` parameter).
  */
 export interface HistoricalInfo {
-  header: Header;
+  header: Header | undefined;
   valset: Validator[];
 }
 /**
@@ -79,9 +79,9 @@ export interface CommissionRates {
 /** Commission defines commission parameters for a given validator. */
 export interface Commission {
   /** commission_rates defines the initial commission rates to be used for creating a validator. */
-  commissionRates: CommissionRates;
+  commissionRates: CommissionRates | undefined;
   /** update_time is the last time the commission rate was changed. */
-  updateTime: Timestamp;
+  updateTime: Timestamp | undefined;
 }
 /** Description defines a validator description. */
 export interface Description {
@@ -110,7 +110,7 @@ export interface Validator {
   /** operator_address defines the address of the validator's operator; bech encoded in JSON. */
   operatorAddress: string;
   /** consensus_pubkey is the consensus public key of the validator, as a Protobuf Any. */
-  consensusPubkey?: Any;
+  consensusPubkey?: Any | undefined;
   /** jailed defined whether the validator has been jailed from bonded status or not. */
   jailed: boolean;
   /** status is the validator status (bonded/unbonding/unbonded). */
@@ -120,13 +120,13 @@ export interface Validator {
   /** delegator_shares defines total shares issued to a validator's delegators. */
   delegatorShares: string;
   /** description defines the description terms for the validator. */
-  description: Description;
+  description: Description | undefined;
   /** unbonding_height defines, if unbonding, the height at which this validator has begun unbonding. */
   unbondingHeight: bigint;
   /** unbonding_time defines, if unbonding, the min time for the validator to complete unbonding. */
-  unbondingTime: Timestamp;
+  unbondingTime: Timestamp | undefined;
   /** commission defines the commission parameters. */
-  commission: Commission;
+  commission: Commission | undefined;
   /** min_self_delegation is the validator's self declared minimum self delegation. */
   minSelfDelegation: string;
 }
@@ -192,7 +192,7 @@ export interface UnbondingDelegationEntry {
   /** creation_height is the height which the unbonding took place. */
   creationHeight: bigint;
   /** completion_time is the unix time for unbonding completion. */
-  completionTime: Timestamp;
+  completionTime: Timestamp | undefined;
   /** initial_balance defines the tokens initially scheduled to receive at completion. */
   initialBalance: string;
   /** balance defines the tokens to receive at completion. */
@@ -203,7 +203,7 @@ export interface RedelegationEntry {
   /** creation_height  defines the height which the redelegation took place. */
   creationHeight: bigint;
   /** completion_time defines the unix time for redelegation completion. */
-  completionTime: Timestamp;
+  completionTime: Timestamp | undefined;
   /** initial_balance defines the initial balance when redelegation started. */
   initialBalance: string;
   /** shares_dst is the amount of destination-validator shares created by redelegation. */
@@ -226,7 +226,7 @@ export interface Redelegation {
 /** Params defines the parameters for the staking module. */
 export interface Params {
   /** unbonding_time is the time duration of unbonding. */
-  unbondingTime: Duration;
+  unbondingTime: Duration | undefined;
   /** max_validators is the maximum number of validators. */
   maxValidators: number;
   /** max_entries is the max entries for either unbonding delegation or redelegation (per pair/trio). */
@@ -241,8 +241,8 @@ export interface Params {
  * balance in addition to shares which is more suitable for client responses.
  */
 export interface DelegationResponse {
-  delegation: Delegation;
-  balance: Coin;
+  delegation: Delegation | undefined;
+  balance: Coin | undefined;
 }
 /**
  * RedelegationEntryResponse is equivalent to a RedelegationEntry except that it
@@ -250,7 +250,7 @@ export interface DelegationResponse {
  * responses.
  */
 export interface RedelegationEntryResponse {
-  redelegationEntry: RedelegationEntry;
+  redelegationEntry: RedelegationEntry | undefined;
   balance: string;
 }
 /**
@@ -259,7 +259,7 @@ export interface RedelegationEntryResponse {
  * responses.
  */
 export interface RedelegationResponse {
-  redelegation: Redelegation;
+  redelegation: Redelegation | undefined;
   entries: RedelegationEntryResponse[];
 }
 /**
@@ -401,7 +401,7 @@ export const CommissionRates = {
 function createBaseCommission(): Commission {
   return {
     commissionRates: CommissionRates.fromPartial({}),
-    updateTime: Timestamp.fromPartial({}),
+    updateTime: undefined,
   };
 }
 export const Commission = {
@@ -557,7 +557,7 @@ function createBaseValidator(): Validator {
     delegatorShares: "",
     description: Description.fromPartial({}),
     unbondingHeight: BigInt(0),
-    unbondingTime: Timestamp.fromPartial({}),
+    unbondingTime: undefined,
     commission: Commission.fromPartial({}),
     minSelfDelegation: "",
   };
@@ -1121,7 +1121,7 @@ export const UnbondingDelegation = {
 function createBaseUnbondingDelegationEntry(): UnbondingDelegationEntry {
   return {
     creationHeight: BigInt(0),
-    completionTime: Timestamp.fromPartial({}),
+    completionTime: undefined,
     initialBalance: "",
     balance: "",
   };
@@ -1205,7 +1205,7 @@ export const UnbondingDelegationEntry = {
 function createBaseRedelegationEntry(): RedelegationEntry {
   return {
     creationHeight: BigInt(0),
-    completionTime: Timestamp.fromPartial({}),
+    completionTime: undefined,
     initialBalance: "",
     sharesDst: "",
   };
@@ -1367,7 +1367,7 @@ export const Redelegation = {
 };
 function createBaseParams(): Params {
   return {
-    unbondingTime: Duration.fromPartial({}),
+    unbondingTime: undefined,
     maxValidators: 0,
     maxEntries: 0,
     historicalEntries: 0,
@@ -1458,7 +1458,7 @@ export const Params = {
 function createBaseDelegationResponse(): DelegationResponse {
   return {
     delegation: Delegation.fromPartial({}),
-    balance: Coin.fromPartial({}),
+    balance: undefined,
   };
 }
 export const DelegationResponse = {

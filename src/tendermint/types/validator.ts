@@ -5,17 +5,17 @@ import { isSet, DeepPartial, Exact, bytesFromBase64, base64FromBytes } from "../
 export const protobufPackage = "tendermint.types";
 export interface ValidatorSet {
   validators: Validator[];
-  proposer?: Validator;
+  proposer?: Validator | undefined;
   totalVotingPower: bigint;
 }
 export interface Validator {
   address: Uint8Array;
-  pubKey: PublicKey;
+  pubKey: PublicKey | undefined;
   votingPower: bigint;
   proposerPriority: bigint;
 }
 export interface SimpleValidator {
-  pubKey?: PublicKey;
+  pubKey?: PublicKey | undefined;
   votingPower: bigint;
 }
 function createBaseValidatorSet(): ValidatorSet {

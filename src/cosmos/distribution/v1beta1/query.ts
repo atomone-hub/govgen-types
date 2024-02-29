@@ -9,14 +9,15 @@ import {
 } from "./distribution";
 import { DecCoin } from "../../base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { DeepPartial, Exact, isSet, Rpc } from "../../../helpers";
+import { DeepPartial, Exact, isSet } from "../../../helpers";
+import { TxRpc } from "../../../types";
 export const protobufPackage = "cosmos.distribution.v1beta1";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
-  params: Params;
+  params: Params | undefined;
 }
 /**
  * QueryValidatorOutstandingRewardsRequest is the request type for the
@@ -31,7 +32,7 @@ export interface QueryValidatorOutstandingRewardsRequest {
  * Query/ValidatorOutstandingRewards RPC method.
  */
 export interface QueryValidatorOutstandingRewardsResponse {
-  rewards: ValidatorOutstandingRewards;
+  rewards: ValidatorOutstandingRewards | undefined;
 }
 /**
  * QueryValidatorCommissionRequest is the request type for the
@@ -47,7 +48,7 @@ export interface QueryValidatorCommissionRequest {
  */
 export interface QueryValidatorCommissionResponse {
   /** commission defines the commision the validator received. */
-  commission: ValidatorAccumulatedCommission;
+  commission: ValidatorAccumulatedCommission | undefined;
 }
 /**
  * QueryValidatorSlashesRequest is the request type for the
@@ -61,7 +62,7 @@ export interface QueryValidatorSlashesRequest {
   /** starting_height defines the optional ending height to query the slashes. */
   endingHeight: bigint;
   /** pagination defines an optional pagination for the request. */
-  pagination?: PageRequest;
+  pagination?: PageRequest | undefined;
 }
 /**
  * QueryValidatorSlashesResponse is the response type for the
@@ -71,7 +72,7 @@ export interface QueryValidatorSlashesResponse {
   /** slashes defines the slashes the validator received. */
   slashes: ValidatorSlashEvent[];
   /** pagination defines the pagination in the response. */
-  pagination?: PageResponse;
+  pagination?: PageResponse | undefined;
 }
 /**
  * QueryDelegationRewardsRequest is the request type for the
@@ -1161,8 +1162,8 @@ export interface Query {
   CommunityPool(request?: QueryCommunityPoolRequest): Promise<QueryCommunityPoolResponse>;
 }
 export class QueryClientImpl implements Query {
-  private readonly rpc: Rpc;
-  constructor(rpc: Rpc) {
+  private readonly rpc: TxRpc;
+  constructor(rpc: TxRpc) {
     this.rpc = rpc;
     this.Params = this.Params.bind(this);
     this.ValidatorOutstandingRewards = this.ValidatorOutstandingRewards.bind(this);

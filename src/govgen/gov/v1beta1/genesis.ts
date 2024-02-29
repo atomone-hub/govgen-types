@@ -14,11 +14,11 @@ export interface GenesisState {
   /** proposals defines all the proposals present at genesis. */
   proposals: Proposal[];
   /** params defines all the paramaters of related to deposit. */
-  depositParams: DepositParams;
+  depositParams: DepositParams | undefined;
   /** params defines all the paramaters of related to voting. */
-  votingParams: VotingParams;
+  votingParams: VotingParams | undefined;
   /** params defines all the paramaters of related to tally. */
-  tallyParams: TallyParams;
+  tallyParams: TallyParams | undefined;
 }
 function createBaseGenesisState(): GenesisState {
   return {

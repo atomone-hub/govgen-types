@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { DeepPartial, Exact, isSet, Rpc } from "../../../../helpers";
+import { DeepPartial, Exact, isSet } from "../../../../helpers";
+import { TxRpc } from "../../../../types";
 export const protobufPackage = "cosmos.base.reflection.v1beta1";
 /** ListAllInterfacesRequest is the request type of the ListAllInterfaces RPC. */
 export interface ListAllInterfacesRequest {}
@@ -227,8 +228,8 @@ export interface ReflectionService {
   ListImplementations(request: ListImplementationsRequest): Promise<ListImplementationsResponse>;
 }
 export class ReflectionServiceClientImpl implements ReflectionService {
-  private readonly rpc: Rpc;
-  constructor(rpc: Rpc) {
+  private readonly rpc: TxRpc;
+  constructor(rpc: TxRpc) {
     this.rpc = rpc;
     this.ListAllInterfaces = this.ListAllInterfaces.bind(this);
     this.ListImplementations = this.ListImplementations.bind(this);

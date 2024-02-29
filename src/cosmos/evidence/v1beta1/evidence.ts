@@ -9,14 +9,14 @@ export const protobufPackage = "cosmos.evidence.v1beta1";
  */
 export interface Equivocation {
   height: bigint;
-  time: Timestamp;
+  time: Timestamp | undefined;
   power: bigint;
   consensusAddress: string;
 }
 function createBaseEquivocation(): Equivocation {
   return {
     height: BigInt(0),
-    time: Timestamp.fromPartial({}),
+    time: undefined,
     power: BigInt(0),
     consensusAddress: "",
   };

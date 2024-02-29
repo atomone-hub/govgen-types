@@ -2,13 +2,14 @@
 import { PageRequest, PageResponse } from "../../base/query/v1beta1/pagination";
 import { Params, ValidatorSigningInfo } from "./slashing";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { DeepPartial, Exact, isSet, Rpc } from "../../../helpers";
+import { DeepPartial, Exact, isSet } from "../../../helpers";
+import { TxRpc } from "../../../types";
 export const protobufPackage = "cosmos.slashing.v1beta1";
 /** QueryParamsRequest is the request type for the Query/Params RPC method */
 export interface QueryParamsRequest {}
 /** QueryParamsResponse is the response type for the Query/Params RPC method */
 export interface QueryParamsResponse {
-  params: Params;
+  params: Params | undefined;
 }
 /**
  * QuerySigningInfoRequest is the request type for the Query/SigningInfo RPC
@@ -24,14 +25,14 @@ export interface QuerySigningInfoRequest {
  */
 export interface QuerySigningInfoResponse {
   /** val_signing_info is the signing info of requested val cons address */
-  valSigningInfo: ValidatorSigningInfo;
+  valSigningInfo: ValidatorSigningInfo | undefined;
 }
 /**
  * QuerySigningInfosRequest is the request type for the Query/SigningInfos RPC
  * method
  */
 export interface QuerySigningInfosRequest {
-  pagination?: PageRequest;
+  pagination?: PageRequest | undefined;
 }
 /**
  * QuerySigningInfosResponse is the response type for the Query/SigningInfos RPC
@@ -40,7 +41,7 @@ export interface QuerySigningInfosRequest {
 export interface QuerySigningInfosResponse {
   /** info is the signing info of all validators */
   info: ValidatorSigningInfo[];
-  pagination?: PageResponse;
+  pagination?: PageResponse | undefined;
 }
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
@@ -351,8 +352,8 @@ export interface Query {
   SigningInfos(request?: QuerySigningInfosRequest): Promise<QuerySigningInfosResponse>;
 }
 export class QueryClientImpl implements Query {
-  private readonly rpc: Rpc;
-  constructor(rpc: Rpc) {
+  private readonly rpc: TxRpc;
+  constructor(rpc: TxRpc) {
     this.rpc = rpc;
     this.Params = this.Params.bind(this);
     this.SigningInfo = this.SigningInfo.bind(this);

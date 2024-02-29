@@ -10,13 +10,13 @@ export const protobufPackage = "cosmos.auth.v1beta1";
  */
 export interface BaseAccount {
   address: string;
-  pubKey?: Any;
+  pubKey?: Any | undefined;
   accountNumber: bigint;
   sequence: bigint;
 }
 /** ModuleAccount defines an account for modules that holds coins on a pool. */
 export interface ModuleAccount {
-  baseAccount?: BaseAccount;
+  baseAccount?: BaseAccount | undefined;
   name: string;
   permissions: string[];
 }

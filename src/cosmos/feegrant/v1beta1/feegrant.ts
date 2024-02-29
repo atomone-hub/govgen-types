@@ -18,7 +18,7 @@ export interface BasicAllowance {
    */
   spendLimit: Coin[];
   /** expiration specifies an optional time when this allowance expires */
-  expiration?: Timestamp;
+  expiration?: Timestamp | undefined;
 }
 /**
  * PeriodicAllowance extends Allowance to allow for both a maximum cap,
@@ -26,12 +26,12 @@ export interface BasicAllowance {
  */
 export interface PeriodicAllowance {
   /** basic specifies a struct of `BasicAllowance` */
-  basic: BasicAllowance;
+  basic: BasicAllowance | undefined;
   /**
    * period specifies the time duration in which period_spend_limit coins can
    * be spent before that allowance is reset
    */
-  period: Duration;
+  period: Duration | undefined;
   /**
    * period_spend_limit specifies the maximum number of coins that can be spent
    * in the period
@@ -44,12 +44,12 @@ export interface PeriodicAllowance {
    * it is calculated from the start time of the first transaction after the
    * last period ended
    */
-  periodReset: Timestamp;
+  periodReset: Timestamp | undefined;
 }
 /** AllowedMsgAllowance creates allowance only for specified message types. */
 export interface AllowedMsgAllowance {
   /** allowance can be any of basic and filtered fee allowance. */
-  allowance?: Any;
+  allowance?: Any | undefined;
   /** allowed_messages are the messages for which the grantee has the access. */
   allowedMessages: string[];
 }
@@ -60,7 +60,7 @@ export interface Grant {
   /** grantee is the address of the user being granted an allowance of another user's funds. */
   grantee: string;
   /** allowance can be any of basic and filtered fee allowance. */
-  allowance?: Any;
+  allowance?: Any | undefined;
 }
 function createBaseBasicAllowance(): BasicAllowance {
   return {
@@ -128,10 +128,10 @@ export const BasicAllowance = {
 function createBasePeriodicAllowance(): PeriodicAllowance {
   return {
     basic: BasicAllowance.fromPartial({}),
-    period: Duration.fromPartial({}),
+    period: undefined,
     periodSpendLimit: [],
     periodCanSpend: [],
-    periodReset: Timestamp.fromPartial({}),
+    periodReset: undefined,
   };
 }
 export const PeriodicAllowance = {

@@ -2,7 +2,8 @@
 import { Grant } from "./authz";
 import { Any } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet, DeepPartial, Exact, bytesFromBase64, base64FromBytes, Rpc } from "../../../helpers";
+import { isSet, DeepPartial, Exact, bytesFromBase64, base64FromBytes } from "../../../helpers";
+import { TxRpc } from "../../../types";
 export const protobufPackage = "cosmos.authz.v1beta1";
 /**
  * MsgGrant is a request type for Grant method. It declares authorization to the grantee
@@ -11,7 +12,7 @@ export const protobufPackage = "cosmos.authz.v1beta1";
 export interface MsgGrant {
   granter: string;
   grantee: string;
-  grant: Grant;
+  grant: Grant | undefined;
 }
 /** MsgExecResponse defines the Msg/MsgExecResponse response type. */
 export interface MsgExecResponse {
@@ -380,8 +381,8 @@ export interface Msg {
   Revoke(request: MsgRevoke): Promise<MsgRevokeResponse>;
 }
 export class MsgClientImpl implements Msg {
-  private readonly rpc: Rpc;
-  constructor(rpc: Rpc) {
+  private readonly rpc: TxRpc;
+  constructor(rpc: TxRpc) {
     this.rpc = rpc;
     this.Grant = this.Grant.bind(this);
     this.Exec = this.Exec.bind(this);

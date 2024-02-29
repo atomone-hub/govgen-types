@@ -33,7 +33,7 @@ export interface TxResponse {
   /** Amount of gas consumed by transaction. */
   gasUsed: bigint;
   /** The request transaction bytes. */
-  tx?: Any;
+  tx?: Any | undefined;
   /**
    * Time of the previous block. For heights > 1, it's the weighted median of
    * the timestamps of the valid votes in the block.LastCommit. For height == 1,
@@ -103,8 +103,8 @@ export interface Result {
  * successfully simulated.
  */
 export interface SimulationResponse {
-  gasInfo: GasInfo;
-  result?: Result;
+  gasInfo: GasInfo | undefined;
+  result?: Result | undefined;
 }
 /**
  * MsgData defines the data returned in a Result object during message

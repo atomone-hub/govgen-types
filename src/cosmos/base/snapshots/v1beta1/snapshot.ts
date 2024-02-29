@@ -8,7 +8,7 @@ export interface Snapshot {
   format: number;
   chunks: number;
   hash: Uint8Array;
-  metadata: Metadata;
+  metadata: Metadata | undefined;
 }
 /** Metadata contains SDK-specific snapshot metadata. */
 export interface Metadata {
@@ -17,10 +17,10 @@ export interface Metadata {
 }
 /** SnapshotItem is an item contained in a rootmulti.Store snapshot. */
 export interface SnapshotItem {
-  store?: SnapshotStoreItem;
-  iavl?: SnapshotIAVLItem;
-  extension?: SnapshotExtensionMeta;
-  extensionPayload?: SnapshotExtensionPayload;
+  store?: SnapshotStoreItem | undefined;
+  iavl?: SnapshotIAVLItem | undefined;
+  extension?: SnapshotExtensionMeta | undefined;
+  extensionPayload?: SnapshotExtensionPayload | undefined;
 }
 /** SnapshotStoreItem contains metadata about a snapshotted store. */
 export interface SnapshotStoreItem {

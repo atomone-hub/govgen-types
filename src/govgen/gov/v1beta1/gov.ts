@@ -173,14 +173,14 @@ export interface Deposit {
 /** Proposal defines the core field members of a governance proposal. */
 export interface Proposal {
   proposalId: bigint;
-  content?: Any;
+  content?: Any | undefined;
   status: ProposalStatus;
-  finalTallyResult: TallyResult;
-  submitTime: Timestamp;
-  depositEndTime: Timestamp;
+  finalTallyResult: TallyResult | undefined;
+  submitTime: Timestamp | undefined;
+  depositEndTime: Timestamp | undefined;
   totalDeposit: Coin[];
-  votingStartTime: Timestamp;
-  votingEndTime: Timestamp;
+  votingStartTime: Timestamp | undefined;
+  votingEndTime: Timestamp | undefined;
 }
 /** TallyResult defines a standard tally for a governance proposal. */
 export interface TallyResult {
@@ -214,21 +214,21 @@ export interface DepositParams {
    * Maximum period for GOVGEN holders to deposit on a proposal. Initial value: 2
    *  months.
    */
-  maxDepositPeriod: Duration;
+  maxDepositPeriod: Duration | undefined;
 }
 /** VotingParams defines the params for voting on governance proposals. */
 export interface VotingParams {
   /** Length of the voting period by default. */
-  votingPeriodDefault: Duration;
+  votingPeriodDefault: Duration | undefined;
   /** Length of the voting period for parameter change proposal. */
-  votingPeriodParameterChange: Duration;
+  votingPeriodParameterChange: Duration | undefined;
   /**
    * Length of the voting period for software upgrade and cancel software
    * upgrade proposal.
    */
-  votingPeriodSoftwareUpgrade: Duration;
+  votingPeriodSoftwareUpgrade: Duration | undefined;
   /** Length of the voting period for text proposal. */
-  votingPeriodText: Duration;
+  votingPeriodText: Duration | undefined;
 }
 /** TallyParams defines the params for tallying votes on governance proposals. */
 export interface TallyParams {
@@ -435,11 +435,11 @@ function createBaseProposal(): Proposal {
     content: undefined,
     status: 0,
     finalTallyResult: TallyResult.fromPartial({}),
-    submitTime: Timestamp.fromPartial({}),
-    depositEndTime: Timestamp.fromPartial({}),
+    submitTime: undefined,
+    depositEndTime: undefined,
     totalDeposit: [],
-    votingStartTime: Timestamp.fromPartial({}),
-    votingEndTime: Timestamp.fromPartial({}),
+    votingStartTime: undefined,
+    votingEndTime: undefined,
   };
 }
 export const Proposal = {
@@ -743,7 +743,7 @@ export const Vote = {
 function createBaseDepositParams(): DepositParams {
   return {
     minDeposit: [],
-    maxDepositPeriod: Duration.fromPartial({}),
+    maxDepositPeriod: undefined,
   };
 }
 export const DepositParams = {
@@ -808,10 +808,10 @@ export const DepositParams = {
 };
 function createBaseVotingParams(): VotingParams {
   return {
-    votingPeriodDefault: Duration.fromPartial({}),
-    votingPeriodParameterChange: Duration.fromPartial({}),
-    votingPeriodSoftwareUpgrade: Duration.fromPartial({}),
-    votingPeriodText: Duration.fromPartial({}),
+    votingPeriodDefault: undefined,
+    votingPeriodParameterChange: undefined,
+    votingPeriodSoftwareUpgrade: undefined,
+    votingPeriodText: undefined,
   };
 }
 export const VotingParams = {

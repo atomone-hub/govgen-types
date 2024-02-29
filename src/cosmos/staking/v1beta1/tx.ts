@@ -4,23 +4,24 @@ import { Any } from "../../../google/protobuf/any";
 import { Coin } from "../../base/v1beta1/coin";
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet, DeepPartial, Exact, fromJsonTimestamp, fromTimestamp, Rpc } from "../../../helpers";
+import { isSet, DeepPartial, Exact, fromJsonTimestamp, fromTimestamp } from "../../../helpers";
+import { TxRpc } from "../../../types";
 export const protobufPackage = "cosmos.staking.v1beta1";
 /** MsgCreateValidator defines a SDK message for creating a new validator. */
 export interface MsgCreateValidator {
-  description: Description;
-  commission: CommissionRates;
+  description: Description | undefined;
+  commission: CommissionRates | undefined;
   minSelfDelegation: string;
   delegatorAddress: string;
   validatorAddress: string;
-  pubkey?: Any;
-  value: Coin;
+  pubkey?: Any | undefined;
+  value: Coin | undefined;
 }
 /** MsgCreateValidatorResponse defines the Msg/CreateValidator response type. */
 export interface MsgCreateValidatorResponse {}
 /** MsgEditValidator defines a SDK message for editing an existing validator. */
 export interface MsgEditValidator {
-  description: Description;
+  description: Description | undefined;
   validatorAddress: string;
   /**
    * We pass a reference to the new commission rate and min self delegation as
@@ -40,7 +41,7 @@ export interface MsgEditValidatorResponse {}
 export interface MsgDelegate {
   delegatorAddress: string;
   validatorAddress: string;
-  amount: Coin;
+  amount: Coin | undefined;
 }
 /** MsgDelegateResponse defines the Msg/Delegate response type. */
 export interface MsgDelegateResponse {}
@@ -52,11 +53,11 @@ export interface MsgBeginRedelegate {
   delegatorAddress: string;
   validatorSrcAddress: string;
   validatorDstAddress: string;
-  amount: Coin;
+  amount: Coin | undefined;
 }
 /** MsgBeginRedelegateResponse defines the Msg/BeginRedelegate response type. */
 export interface MsgBeginRedelegateResponse {
-  completionTime: Timestamp;
+  completionTime: Timestamp | undefined;
 }
 /**
  * MsgUndelegate defines a SDK message for performing an undelegation from a
@@ -65,11 +66,11 @@ export interface MsgBeginRedelegateResponse {
 export interface MsgUndelegate {
   delegatorAddress: string;
   validatorAddress: string;
-  amount: Coin;
+  amount: Coin | undefined;
 }
 /** MsgUndelegateResponse defines the Msg/Undelegate response type. */
 export interface MsgUndelegateResponse {
-  completionTime: Timestamp;
+  completionTime: Timestamp | undefined;
 }
 function createBaseMsgCreateValidator(): MsgCreateValidator {
   return {
@@ -79,7 +80,7 @@ function createBaseMsgCreateValidator(): MsgCreateValidator {
     delegatorAddress: "",
     validatorAddress: "",
     pubkey: undefined,
-    value: Coin.fromPartial({}),
+    value: undefined,
   };
 }
 export const MsgCreateValidator = {
@@ -340,7 +341,7 @@ function createBaseMsgDelegate(): MsgDelegate {
   return {
     delegatorAddress: "",
     validatorAddress: "",
-    amount: Coin.fromPartial({}),
+    amount: undefined,
   };
 }
 export const MsgDelegate = {
@@ -444,7 +445,7 @@ function createBaseMsgBeginRedelegate(): MsgBeginRedelegate {
     delegatorAddress: "",
     validatorSrcAddress: "",
     validatorDstAddress: "",
-    amount: Coin.fromPartial({}),
+    amount: undefined,
   };
 }
 export const MsgBeginRedelegate = {
@@ -519,7 +520,7 @@ export const MsgBeginRedelegate = {
 };
 function createBaseMsgBeginRedelegateResponse(): MsgBeginRedelegateResponse {
   return {
-    completionTime: Timestamp.fromPartial({}),
+    completionTime: undefined,
   };
 }
 export const MsgBeginRedelegateResponse = {
@@ -572,7 +573,7 @@ function createBaseMsgUndelegate(): MsgUndelegate {
   return {
     delegatorAddress: "",
     validatorAddress: "",
-    amount: Coin.fromPartial({}),
+    amount: undefined,
   };
 }
 export const MsgUndelegate = {
@@ -638,7 +639,7 @@ export const MsgUndelegate = {
 };
 function createBaseMsgUndelegateResponse(): MsgUndelegateResponse {
   return {
-    completionTime: Timestamp.fromPartial({}),
+    completionTime: undefined,
   };
 }
 export const MsgUndelegateResponse = {
@@ -708,8 +709,8 @@ export interface Msg {
   Undelegate(request: MsgUndelegate): Promise<MsgUndelegateResponse>;
 }
 export class MsgClientImpl implements Msg {
-  private readonly rpc: Rpc;
-  constructor(rpc: Rpc) {
+  private readonly rpc: TxRpc;
+  constructor(rpc: TxRpc) {
     this.rpc = rpc;
     this.CreateValidator = this.CreateValidator.bind(this);
     this.EditValidator = this.EditValidator.bind(this);

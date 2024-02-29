@@ -13,8 +13,8 @@ import {
   bytesFromBase64,
   fromTimestamp,
   base64FromBytes,
-  Rpc,
 } from "../../helpers";
+import { TxRpc } from "../../types";
 export const protobufPackage = "tendermint.abci";
 export enum CheckTxType {
   NEW = 0,
@@ -203,21 +203,21 @@ export function evidenceTypeToJSON(object: EvidenceType): string {
   }
 }
 export interface Request {
-  echo?: RequestEcho;
-  flush?: RequestFlush;
-  info?: RequestInfo;
-  setOption?: RequestSetOption;
-  initChain?: RequestInitChain;
-  query?: RequestQuery;
-  beginBlock?: RequestBeginBlock;
-  checkTx?: RequestCheckTx;
-  deliverTx?: RequestDeliverTx;
-  endBlock?: RequestEndBlock;
-  commit?: RequestCommit;
-  listSnapshots?: RequestListSnapshots;
-  offerSnapshot?: RequestOfferSnapshot;
-  loadSnapshotChunk?: RequestLoadSnapshotChunk;
-  applySnapshotChunk?: RequestApplySnapshotChunk;
+  echo?: RequestEcho | undefined;
+  flush?: RequestFlush | undefined;
+  info?: RequestInfo | undefined;
+  setOption?: RequestSetOption | undefined;
+  initChain?: RequestInitChain | undefined;
+  query?: RequestQuery | undefined;
+  beginBlock?: RequestBeginBlock | undefined;
+  checkTx?: RequestCheckTx | undefined;
+  deliverTx?: RequestDeliverTx | undefined;
+  endBlock?: RequestEndBlock | undefined;
+  commit?: RequestCommit | undefined;
+  listSnapshots?: RequestListSnapshots | undefined;
+  offerSnapshot?: RequestOfferSnapshot | undefined;
+  loadSnapshotChunk?: RequestLoadSnapshotChunk | undefined;
+  applySnapshotChunk?: RequestApplySnapshotChunk | undefined;
 }
 export interface RequestEcho {
   message: string;
@@ -234,9 +234,9 @@ export interface RequestSetOption {
   value: string;
 }
 export interface RequestInitChain {
-  time: Timestamp;
+  time: Timestamp | undefined;
   chainId: string;
-  consensusParams?: ConsensusParams;
+  consensusParams?: ConsensusParams | undefined;
   validators: ValidatorUpdate[];
   appStateBytes: Uint8Array;
   initialHeight: bigint;
@@ -249,8 +249,8 @@ export interface RequestQuery {
 }
 export interface RequestBeginBlock {
   hash: Uint8Array;
-  header: Header;
-  lastCommitInfo: LastCommitInfo;
+  header: Header | undefined;
+  lastCommitInfo: LastCommitInfo | undefined;
   byzantineValidators: Evidence[];
 }
 export interface RequestCheckTx {
@@ -269,7 +269,7 @@ export interface RequestListSnapshots {}
 /** offers a snapshot to the application */
 export interface RequestOfferSnapshot {
   /** snapshot offered by peers */
-  snapshot?: Snapshot;
+  snapshot?: Snapshot | undefined;
   /** light client-verified app hash for snapshot height */
   appHash: Uint8Array;
 }
@@ -286,22 +286,22 @@ export interface RequestApplySnapshotChunk {
   sender: string;
 }
 export interface Response {
-  exception?: ResponseException;
-  echo?: ResponseEcho;
-  flush?: ResponseFlush;
-  info?: ResponseInfo;
-  setOption?: ResponseSetOption;
-  initChain?: ResponseInitChain;
-  query?: ResponseQuery;
-  beginBlock?: ResponseBeginBlock;
-  checkTx?: ResponseCheckTx;
-  deliverTx?: ResponseDeliverTx;
-  endBlock?: ResponseEndBlock;
-  commit?: ResponseCommit;
-  listSnapshots?: ResponseListSnapshots;
-  offerSnapshot?: ResponseOfferSnapshot;
-  loadSnapshotChunk?: ResponseLoadSnapshotChunk;
-  applySnapshotChunk?: ResponseApplySnapshotChunk;
+  exception?: ResponseException | undefined;
+  echo?: ResponseEcho | undefined;
+  flush?: ResponseFlush | undefined;
+  info?: ResponseInfo | undefined;
+  setOption?: ResponseSetOption | undefined;
+  initChain?: ResponseInitChain | undefined;
+  query?: ResponseQuery | undefined;
+  beginBlock?: ResponseBeginBlock | undefined;
+  checkTx?: ResponseCheckTx | undefined;
+  deliverTx?: ResponseDeliverTx | undefined;
+  endBlock?: ResponseEndBlock | undefined;
+  commit?: ResponseCommit | undefined;
+  listSnapshots?: ResponseListSnapshots | undefined;
+  offerSnapshot?: ResponseOfferSnapshot | undefined;
+  loadSnapshotChunk?: ResponseLoadSnapshotChunk | undefined;
+  applySnapshotChunk?: ResponseApplySnapshotChunk | undefined;
 }
 /** nondeterministic */
 export interface ResponseException {
@@ -326,7 +326,7 @@ export interface ResponseSetOption {
   info: string;
 }
 export interface ResponseInitChain {
-  consensusParams?: ConsensusParams;
+  consensusParams?: ConsensusParams | undefined;
   validators: ValidatorUpdate[];
   appHash: Uint8Array;
 }
@@ -339,7 +339,7 @@ export interface ResponseQuery {
   index: bigint;
   key: Uint8Array;
   value: Uint8Array;
-  proofOps?: ProofOps;
+  proofOps?: ProofOps | undefined;
   height: bigint;
   codespace: string;
 }
@@ -379,7 +379,7 @@ export interface ResponseDeliverTx {
 }
 export interface ResponseEndBlock {
   validatorUpdates: ValidatorUpdate[];
-  consensusParamUpdates?: ConsensusParams;
+  consensusParamUpdates?: ConsensusParams | undefined;
   events: Event[];
 }
 export interface ResponseCommit {
@@ -408,10 +408,10 @@ export interface ResponseApplySnapshotChunk {
  * that can be adjusted by the abci app
  */
 export interface ConsensusParams {
-  block?: BlockParams;
-  evidence?: EvidenceParams;
-  validator?: ValidatorParams;
-  version?: VersionParams;
+  block?: BlockParams | undefined;
+  evidence?: EvidenceParams | undefined;
+  validator?: ValidatorParams | undefined;
+  version?: VersionParams | undefined;
 }
 /** BlockParams contains limits on the block size. */
 export interface BlockParams {
@@ -449,7 +449,7 @@ export interface TxResult {
   height: bigint;
   index: number;
   tx: Uint8Array;
-  result: ResponseDeliverTx;
+  result: ResponseDeliverTx | undefined;
 }
 /** Validator */
 export interface Validator {
@@ -463,22 +463,22 @@ export interface Validator {
 }
 /** ValidatorUpdate */
 export interface ValidatorUpdate {
-  pubKey: PublicKey;
+  pubKey: PublicKey | undefined;
   power: bigint;
 }
 /** VoteInfo */
 export interface VoteInfo {
-  validator: Validator;
+  validator: Validator | undefined;
   signedLastBlock: boolean;
 }
 export interface Evidence {
   type: EvidenceType;
   /** The offending validator */
-  validator: Validator;
+  validator: Validator | undefined;
   /** The height when the offense occurred */
   height: bigint;
   /** The corresponding time where the offense occurred */
-  time: Timestamp;
+  time: Timestamp | undefined;
   /**
    * Total voting power of the validator set in case the ABCI application does
    * not store historical validators.
@@ -946,7 +946,7 @@ export const RequestSetOption = {
 };
 function createBaseRequestInitChain(): RequestInitChain {
   return {
-    time: Timestamp.fromPartial({}),
+    time: undefined,
     chainId: "",
     consensusParams: undefined,
     validators: [],
@@ -3706,7 +3706,7 @@ function createBaseEvidence(): Evidence {
     type: 0,
     validator: Validator.fromPartial({}),
     height: BigInt(0),
-    time: Timestamp.fromPartial({}),
+    time: undefined,
     totalVotingPower: BigInt(0),
   };
 }
@@ -3905,8 +3905,8 @@ export interface ABCIApplication {
   ApplySnapshotChunk(request: RequestApplySnapshotChunk): Promise<ResponseApplySnapshotChunk>;
 }
 export class ABCIApplicationClientImpl implements ABCIApplication {
-  private readonly rpc: Rpc;
-  constructor(rpc: Rpc) {
+  private readonly rpc: TxRpc;
+  constructor(rpc: TxRpc) {
     this.rpc = rpc;
     this.Echo = this.Echo.bind(this);
     this.Flush = this.Flush.bind(this);

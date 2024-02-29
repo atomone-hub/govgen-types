@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { DeepPartial, Exact, isSet, Rpc } from "../../../../helpers";
+import { DeepPartial, Exact, isSet } from "../../../../helpers";
+import { TxRpc } from "../../../../types";
 export const protobufPackage = "cosmos.base.node.v1beta1";
 /** ConfigRequest defines the request structure for the Config gRPC query. */
 export interface ConfigRequest {}
@@ -95,8 +96,8 @@ export interface Service {
   Config(request?: ConfigRequest): Promise<ConfigResponse>;
 }
 export class ServiceClientImpl implements Service {
-  private readonly rpc: Rpc;
-  constructor(rpc: Rpc) {
+  private readonly rpc: TxRpc;
+  constructor(rpc: TxRpc) {
     this.rpc = rpc;
     this.Config = this.Config.bind(this);
   }

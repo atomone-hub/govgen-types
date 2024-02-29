@@ -110,22 +110,22 @@ export interface PartSetHeader {
 export interface Part {
   index: number;
   bytes: Uint8Array;
-  proof: Proof;
+  proof: Proof | undefined;
 }
 /** BlockID */
 export interface BlockID {
   hash: Uint8Array;
-  partSetHeader: PartSetHeader;
+  partSetHeader: PartSetHeader | undefined;
 }
 /** Header defines the structure of a block header. */
 export interface Header {
   /** basic block info */
-  version: Consensus;
+  version: Consensus | undefined;
   chainId: string;
   height: bigint;
-  time: Timestamp;
+  time: Timestamp | undefined;
   /** prev block info */
-  lastBlockId: BlockID;
+  lastBlockId: BlockID | undefined;
   /** hashes of block data */
   lastCommitHash: Uint8Array;
   dataHash: Uint8Array;
@@ -160,8 +160,8 @@ export interface Vote {
   type: SignedMsgType;
   height: bigint;
   round: number;
-  blockId: BlockID;
-  timestamp: Timestamp;
+  blockId: BlockID | undefined;
+  timestamp: Timestamp | undefined;
   validatorAddress: Uint8Array;
   validatorIndex: number;
   signature: Uint8Array;
@@ -170,14 +170,14 @@ export interface Vote {
 export interface Commit {
   height: bigint;
   round: number;
-  blockId: BlockID;
+  blockId: BlockID | undefined;
   signatures: CommitSig[];
 }
 /** CommitSig is a part of the Vote included in a Commit. */
 export interface CommitSig {
   blockIdFlag: BlockIDFlag;
   validatorAddress: Uint8Array;
-  timestamp: Timestamp;
+  timestamp: Timestamp | undefined;
   signature: Uint8Array;
 }
 export interface Proposal {
@@ -185,29 +185,29 @@ export interface Proposal {
   height: bigint;
   round: number;
   polRound: number;
-  blockId: BlockID;
-  timestamp: Timestamp;
+  blockId: BlockID | undefined;
+  timestamp: Timestamp | undefined;
   signature: Uint8Array;
 }
 export interface SignedHeader {
-  header?: Header;
-  commit?: Commit;
+  header?: Header | undefined;
+  commit?: Commit | undefined;
 }
 export interface LightBlock {
-  signedHeader?: SignedHeader;
-  validatorSet?: ValidatorSet;
+  signedHeader?: SignedHeader | undefined;
+  validatorSet?: ValidatorSet | undefined;
 }
 export interface BlockMeta {
-  blockId: BlockID;
+  blockId: BlockID | undefined;
   blockSize: bigint;
-  header: Header;
+  header: Header | undefined;
   numTxs: bigint;
 }
 /** TxProof represents a Merkle proof of the presence of a transaction in the Merkle tree. */
 export interface TxProof {
   rootHash: Uint8Array;
   data: Uint8Array;
-  proof?: Proof;
+  proof?: Proof | undefined;
 }
 function createBasePartSetHeader(): PartSetHeader {
   return {
@@ -400,7 +400,7 @@ function createBaseHeader(): Header {
     version: Consensus.fromPartial({}),
     chainId: "",
     height: BigInt(0),
-    time: Timestamp.fromPartial({}),
+    time: undefined,
     lastBlockId: BlockID.fromPartial({}),
     lastCommitHash: new Uint8Array(),
     dataHash: new Uint8Array(),
@@ -660,7 +660,7 @@ function createBaseVote(): Vote {
     height: BigInt(0),
     round: 0,
     blockId: BlockID.fromPartial({}),
-    timestamp: Timestamp.fromPartial({}),
+    timestamp: undefined,
     validatorAddress: new Uint8Array(),
     validatorIndex: 0,
     signature: new Uint8Array(),
@@ -873,7 +873,7 @@ function createBaseCommitSig(): CommitSig {
   return {
     blockIdFlag: 0,
     validatorAddress: new Uint8Array(),
-    timestamp: Timestamp.fromPartial({}),
+    timestamp: undefined,
     signature: new Uint8Array(),
   };
 }
@@ -960,7 +960,7 @@ function createBaseProposal(): Proposal {
     round: 0,
     polRound: 0,
     blockId: BlockID.fromPartial({}),
-    timestamp: Timestamp.fromPartial({}),
+    timestamp: undefined,
     signature: new Uint8Array(),
   };
 }

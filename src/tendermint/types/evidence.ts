@@ -6,24 +6,24 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, Exact, fromJsonTimestamp, fromTimestamp } from "../../helpers";
 export const protobufPackage = "tendermint.types";
 export interface Evidence {
-  duplicateVoteEvidence?: DuplicateVoteEvidence;
-  lightClientAttackEvidence?: LightClientAttackEvidence;
+  duplicateVoteEvidence?: DuplicateVoteEvidence | undefined;
+  lightClientAttackEvidence?: LightClientAttackEvidence | undefined;
 }
 /** DuplicateVoteEvidence contains evidence of a validator signed two conflicting votes. */
 export interface DuplicateVoteEvidence {
-  voteA?: Vote;
-  voteB?: Vote;
+  voteA?: Vote | undefined;
+  voteB?: Vote | undefined;
   totalVotingPower: bigint;
   validatorPower: bigint;
-  timestamp: Timestamp;
+  timestamp: Timestamp | undefined;
 }
 /** LightClientAttackEvidence contains evidence of a set of validators attempting to mislead a light client. */
 export interface LightClientAttackEvidence {
-  conflictingBlock?: LightBlock;
+  conflictingBlock?: LightBlock | undefined;
   commonHeight: bigint;
   byzantineValidators: Validator[];
   totalVotingPower: bigint;
-  timestamp: Timestamp;
+  timestamp: Timestamp | undefined;
 }
 export interface EvidenceList {
   evidence: Evidence[];
@@ -104,7 +104,7 @@ function createBaseDuplicateVoteEvidence(): DuplicateVoteEvidence {
     voteB: undefined,
     totalVotingPower: BigInt(0),
     validatorPower: BigInt(0),
-    timestamp: Timestamp.fromPartial({}),
+    timestamp: undefined,
   };
 }
 export const DuplicateVoteEvidence = {
@@ -202,7 +202,7 @@ function createBaseLightClientAttackEvidence(): LightClientAttackEvidence {
     commonHeight: BigInt(0),
     byzantineValidators: [],
     totalVotingPower: BigInt(0),
-    timestamp: Timestamp.fromPartial({}),
+    timestamp: undefined,
   };
 }
 export const LightClientAttackEvidence = {

@@ -169,7 +169,7 @@ export function lengthOpToJSON(object: LengthOp): string {
 export interface ExistenceProof {
   key: Uint8Array;
   value: Uint8Array;
-  leaf?: LeafOp;
+  leaf?: LeafOp | undefined;
   path: InnerOp[];
 }
 /**
@@ -180,15 +180,15 @@ export interface ExistenceProof {
 export interface NonExistenceProof {
   /** TODO: remove this as unnecessary??? we prove a range */
   key: Uint8Array;
-  left?: ExistenceProof;
-  right?: ExistenceProof;
+  left?: ExistenceProof | undefined;
+  right?: ExistenceProof | undefined;
 }
 /** CommitmentProof is either an ExistenceProof or a NonExistenceProof, or a Batch of such messages */
 export interface CommitmentProof {
-  exist?: ExistenceProof;
-  nonexist?: NonExistenceProof;
-  batch?: BatchProof;
-  compressed?: CompressedBatchProof;
+  exist?: ExistenceProof | undefined;
+  nonexist?: NonExistenceProof | undefined;
+  batch?: BatchProof | undefined;
+  compressed?: CompressedBatchProof | undefined;
 }
 /**
  * LeafOp represents the raw key-value data we wish to prove, and
@@ -256,8 +256,8 @@ export interface ProofSpec {
    * any field in the ExistenceProof must be the same as in this spec.
    * except Prefix, which is just the first bytes of prefix (spec can be longer)
    */
-  leafSpec?: LeafOp;
-  innerSpec?: InnerSpec;
+  leafSpec?: LeafOp | undefined;
+  innerSpec?: InnerSpec | undefined;
   /** max_depth (if > 0) is the maximum number of InnerOps allowed (mainly for fixed-depth tries) */
   maxDepth: number;
   /** min_depth (if > 0) is the minimum number of InnerOps allowed (mainly for fixed-depth tries) */
@@ -294,8 +294,8 @@ export interface BatchProof {
 }
 /** Use BatchEntry not CommitmentProof, to avoid recursion */
 export interface BatchEntry {
-  exist?: ExistenceProof;
-  nonexist?: NonExistenceProof;
+  exist?: ExistenceProof | undefined;
+  nonexist?: NonExistenceProof | undefined;
 }
 export interface CompressedBatchProof {
   entries: CompressedBatchEntry[];
@@ -303,21 +303,21 @@ export interface CompressedBatchProof {
 }
 /** Use BatchEntry not CommitmentProof, to avoid recursion */
 export interface CompressedBatchEntry {
-  exist?: CompressedExistenceProof;
-  nonexist?: CompressedNonExistenceProof;
+  exist?: CompressedExistenceProof | undefined;
+  nonexist?: CompressedNonExistenceProof | undefined;
 }
 export interface CompressedExistenceProof {
   key: Uint8Array;
   value: Uint8Array;
-  leaf?: LeafOp;
+  leaf?: LeafOp | undefined;
   /** these are indexes into the lookup_inners table in CompressedBatchProof */
   path: number[];
 }
 export interface CompressedNonExistenceProof {
   /** TODO: remove this as unnecessary??? we prove a range */
   key: Uint8Array;
-  left?: CompressedExistenceProof;
-  right?: CompressedExistenceProof;
+  left?: CompressedExistenceProof | undefined;
+  right?: CompressedExistenceProof | undefined;
 }
 function createBaseExistenceProof(): ExistenceProof {
   return {

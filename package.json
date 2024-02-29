@@ -1,6 +1,6 @@
 {
   "name": "@atomone/govgen-types",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "JS and TS types relating to Protocol Buffers used by GovGen",
   "contributors": [
     "Simon Warta <webmaster128@users.noreply.github.com>",
@@ -38,9 +38,12 @@
     "prepare-publishing": "./scripts/prepare-publishing.sh",
     "build": "rm -rf ./build && tsc && npm run prepare-publishing"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@cosmology/telescope": "^1.0.7",
+    "@cosmjs/amino": "^0.32.2",
+    "@cosmjs/proto-signing": "^0.32.2",
+    "@cosmjs/stargate": "^0.32.2",
+    "@cosmjs/tendermint-rpc": "^0.32.2",
+    "@cosmology/telescope": "^1.4.12",
     "@types/node": "^15.6.2",
     "prettier": "^3.0.3",
     "typescript": "~5.2"

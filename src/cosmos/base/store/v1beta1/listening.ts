@@ -31,17 +31,17 @@ export interface StoreKVPair {
  * the file streamer dump them into files together with the state changes.
  */
 export interface BlockMetadata {
-  requestBeginBlock?: RequestBeginBlock;
-  responseBeginBlock?: ResponseBeginBlock;
+  requestBeginBlock?: RequestBeginBlock | undefined;
+  responseBeginBlock?: ResponseBeginBlock | undefined;
   deliverTxs: BlockMetadata_DeliverTx[];
-  requestEndBlock?: RequestEndBlock;
-  responseEndBlock?: ResponseEndBlock;
-  responseCommit?: ResponseCommit;
+  requestEndBlock?: RequestEndBlock | undefined;
+  responseEndBlock?: ResponseEndBlock | undefined;
+  responseCommit?: ResponseCommit | undefined;
 }
 /** DeliverTx encapulate deliver tx request and response. */
 export interface BlockMetadata_DeliverTx {
-  request?: RequestDeliverTx;
-  response?: ResponseDeliverTx;
+  request?: RequestDeliverTx | undefined;
+  response?: ResponseDeliverTx | undefined;
 }
 function createBaseStoreKVPair(): StoreKVPair {
   return {
