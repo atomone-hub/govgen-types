@@ -13,6 +13,7 @@ node_modules/
 /cosmwasm/
 /gogoproto/
 /google/
+/govgen/
 /ibc/
 /tendermint/
 /binary.*
